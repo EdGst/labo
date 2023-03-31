@@ -1,4 +1,4 @@
-package menu;
+package Menu;
 
 public abstract class Item{
     private final String libele;

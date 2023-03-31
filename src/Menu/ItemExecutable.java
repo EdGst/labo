@@ -1,4 +1,4 @@
-package menu;
+package Menu;
 
 public class ItemExecutable extends Item{
     private Runnable action;

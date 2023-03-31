@@ -1,5 +1,7 @@
-import menu.Menu;
-import menu.MenuBuilder;
+package Kinomichi;
+
+import Menu.Menu;
+import Menu.MenuBuilder;
 
 public class Kinomichi {
     static Controller test = new Controller();
@@ -26,13 +28,17 @@ public class Kinomichi {
                 menuBuilder.startMenu("2", ": Supprimer un participant");
                 {
                     //Ajouter la méthode suppressionParticipant()
-                    menuBuilder.addItem("2", ": Retour", () -> menuPrincipal.execute());
+                    menuBuilder.addItem("1", ": Supprimer participant", getOption2());  // à modifier pour suppression
+                    menuBuilder.addItem("2", ": Afficher la liste des participants", getOption3());
+                    menuBuilder.addItem("3", ": Retour", () -> menuPrincipal.execute());
                 }
                 menuBuilder.endMenu();
                 menuBuilder.startMenu("3", ": Modifier un participant");
                 {
                     //Ajouter la méthode modificationParticipant()
-                    menuBuilder.addItem("2", ": Retour", () -> menuPrincipal.execute());
+                    menuBuilder.addItem("1", ": Modifier participant", getOption2());  // à modifier pour modifier un participant
+                    menuBuilder.addItem("2", ": Afficher la liste des participants", getOption3());
+                    menuBuilder.addItem("3", ": Retour", () -> menuPrincipal.execute());
                 }
                 menuBuilder.endMenu();
                 menuBuilder.startMenu("4", ": Inscrire un participant à une activité");
@@ -120,7 +126,13 @@ public class Kinomichi {
         return () -> System.out.println("Vous avez choisi l'option 4");
     }
 
-    private static Runnable getOption5() {
+    private static Runnable getOption5() { return () -> test.modifierPersonne(); }
+
+    private static Runnable getOption6(){ return () -> test.supprimerPersonne(); }
+
+
+
+    private static Runnable getOption7() {
         return new Runnable() {
             @Override
             public void run() {
@@ -130,7 +142,7 @@ public class Kinomichi {
     }
 
 }
-    //Controller test = new Controller();
+    //Kinomichi.Controller test = new Kinomichi.Controller();
    //         test.addPersonne();
     //        test.addPersonne();
     //        test.printListePersonnes();

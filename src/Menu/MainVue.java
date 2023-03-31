@@ -1,11 +1,10 @@
-package menu;
+package Menu;
 
 import java.util.Map;
 import java.util.Scanner;
 
-public class InlineVue implements MenuVue{
+public class MainVue implements MenuVue{
     private Scanner scanner = new Scanner(System.in);
-
     @Override
     public String getChoice(Menu menu) {
         Map<String, String> map = menu.getItemText();
@@ -18,8 +17,7 @@ public class InlineVue implements MenuVue{
     @Override
     public void affiche(Map<String, String> map) {
         for (Map.Entry<String, String> e : map.entrySet()) {
-            System.out.printf("#%s - %s / ",e.getKey(),e.getValue());
+            System.out.printf("#%s - %s%n",e.getKey(),e.getValue());
         }
-        System.out.println();
     }
 }

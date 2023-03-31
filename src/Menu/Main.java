@@ -1,6 +1,4 @@
-package menu;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+package Menu;
 
 public class Main {
     public static void main(String[] args) {
