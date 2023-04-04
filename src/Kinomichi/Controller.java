@@ -1,21 +1,25 @@
 package Kinomichi;
 
 import Kinomichi.Activite.Activite;
+import Kinomichi.Activite.ListeActivite;
+import Kinomichi.Horaire.Horaire;
+import Kinomichi.Personne.ListePersonne;
+import Kinomichi.Personne.Personne;
+import Kinomichi.util.Console;
+
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller  {
 
-    private List<Personne> personne;
-    private List<Activite> activite;
-
-    public Controller() {
-        this.personne = new ArrayList<>();
-    }
+    private ListePersonne p = new ListePersonne();
+    private Horaire a = new Horaire();
     private Doublon listePersonnesInscrites = new Doublon();
+
+
+
 
     // ajouter une personne à la liste
     public void addPersonne() {
@@ -37,48 +41,92 @@ public class Controller {
                 if (choix.equalsIgnoreCase("Oui"))
                     responsable = true;
 
+        if (p == null){
+            System.out.println("je passe ici");
+            Personne personne = new Personne(nom, prenom, club, responsable);
+            try{
+                p.addpersonne(personne);
+                System.out.println("Personne.Personne ajoutée: " + personne.getNom() + " " + personne.getPrenom());
+            }catch (NullPointerException e){
+                System.err.println("A vérifier !");
+            }
 
-
-        if (listePersonnesInscrites.verifDoublon(personne, nom, prenom)){
+        } else {
+            if (listePersonnesInscrites.verifDoublon(p.getListePersonne(), nom, prenom)){
             System.out.println("Cette personne existe déjà");
         }
         else {
             Personne personne = new Personne(nom, prenom, club, responsable);
-            this.personne.add(personne);
+            p.addpersonne(personne);
             System.out.println("Personne.Personne ajoutée: " + personne.getNom() + " " + personne.getPrenom());
         }
+
+        }
+
     }
     public void addActivite() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nom: ");
         String nom = scanner.nextLine();
-        System.out.println("Heure debut: ");
-        LocalDateTime debut = LocalDateTime.parse(scanner.nextLine());
-        System.out.println("Heure fin: ");
-        LocalDateTime fin = LocalDateTime.parse(scanner.nextLine());
 
-        if (listePersonnesInscrites.verifDoublonActivite(activite, nom, debut, fin)){
-           System.out.println("Cette personne existe déjà");
-        }
-        else {
+        System.out.println("Donnez la date et l'heure du début de l'activité");
+        LocalDateTime debut = getDate();
+        System.out.println("Donnez la date et l'heure de fin de l'activité");
+        LocalDateTime fin = getDate();
+
+
             Activite activite = new Activite(nom, debut, fin);
-            this.activite.add(activite);
-            System.out.println("Personne.Personne ajoutée: " + activite.getNom() + " " + activite.getDebut() + " " + activite.getFin());
-        }
+
+
     }
+    private static LocalDateTime getDate() {
+        // variables
+        LocalDateTime date;
+        String input;
+        String[] tab;
+        // tant que le nombre de valeur entré est diff de celle attendu alors on execute la boucle
+        do {
+            //affichage demande + lecture input user
+            System.out.println("Annee.Mois.Jour.Heure.Minute");
+            input = Console.lireString();
+            tab = input.split("\\.");
+        } while (tab.length < 5);
+        // création de la date à partie des saisies
+        date = LocalDateTime.of(
+                Integer.valueOf(tab[0]),
+                Integer.valueOf(tab[1]),
+                Integer.valueOf(tab[2]),
+                Integer.valueOf(tab[3]),
+                Integer.valueOf(tab[4]));
+        // retourne la date
+        return date;
+    }
+
+
 
     // Imprimer la liste
     public void printListePersonnes() {
-        System.out.println("Liste de personnes:");
-        for (Personne personne : this.personne) {
+        System.out.println("Liste de personnes: ");
+        for (Personne personne : p.getListePersonne()) {
             System.out.println(personne.getNom() + " " + personne.getPrenom() + " " + personne.getClub());
         }
 
     }
 
+    public void printListeActivite() {
+        System.out.println("Liste des activités: ");
+        for (Activite activite : a.getListeActivite()) {
+            System.out.println(activite.getNom() + " " + activite.getDebut() + " " + activite.getFin());
+        }
+    }
+
+
+
+
+
     // Recherche une personne dans la liste : Sert pour la fonction delete - recherche - modification
     public Personne rechercheP (String nom, String prenom) {
-        for (Personne p : personne) {
+        for (Personne p : p.getListePersonne()) {
             if (p.getNom().equals(nom) && p.getPrenom().equals(prenom)) {
                 System.out.printf("Est-ce bien %s %s ? Oui/Non", p.getPrenom(), p.getNom());
                 Scanner scan = new Scanner(System.in);
@@ -90,7 +138,7 @@ public class Controller {
         return null;
     }
     public Activite rechercheA (String nom, LocalDateTime debut, LocalDateTime fin) {
-        for (Activite a : activite) {
+        for (Activite a : a.getListeActivite()) {
             if (a.getNom().equals(nom) && a.getDebut().equals(debut) && a.getFin().equals(fin)) {
                 System.out.printf("Est-ce bien %s %s %s ? Oui/Non", a.getNom(), a.getDebut().toString(), a.getFin().toString());
                 Scanner scan = new Scanner(System.in);
@@ -111,11 +159,11 @@ public class Controller {
         String club = scanner.nextLine();
 
 
-        Personne p = rechercheP(nom, prenom);
+        Personne personne = rechercheP(nom, prenom);
 
-        if (p != null){
-            this.personne.remove(p);
-            System.out.println("Personne supprimée: " + p.getNom() + " " + p.getPrenom());
+        if (personne != null){
+            this.p.getListePersonne().remove(personne);
+            System.out.println("Personne supprimée: " + personne.getNom() + " " + personne.getPrenom());
         }
 
 
@@ -133,7 +181,7 @@ public class Controller {
             return;
         }
 
-        System.out.println("Personne à modifier: " + p);
+        System.out.println("Personne à modifier: " + p.getPrenom() + " " + p.getPrenom());
         System.out.println("Que voulez-vous modifier?");
         System.out.println("1 - Nom");
         System.out.println("2 - Prénom");
@@ -160,8 +208,11 @@ public class Controller {
             default -> System.out.println("Choix invalide");
         }
 
-        System.out.println("Personne modifiée: " + p);
+        System.out.println("Personne modifiée: "  + p.getPrenom() + " " + p.getNom() + " " + p.getClub());
     }
+
+
+
 
     // inscrire un participant
     public void inscrirePersonneActivite(String nomActivite, LocalDateTime debut, LocalDateTime fin, String nomPersonne, String prenomPersonne) {

@@ -1,6 +1,7 @@
 package Kinomichi;
 
 import Kinomichi.Activite.Activite;
+import Kinomichi.Personne.Personne;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,10 +1,15 @@
 package Kinomichi.Activite;
 
-import Kinomichi.Personne;
+import Kinomichi.Personne.Personne;
+import Kinomichi.util.Console;
 
+
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Activite {
 
@@ -14,10 +19,13 @@ public class Activite {
     private List<Personne> inscrits = new ArrayList<>();
 
 
+
     public Activite(String nom, LocalDateTime debut, LocalDateTime fin){
         this.nom = nom;
         this.debut = debut;
         this.fin = fin;
+
+
 
     }
 
@@ -32,10 +40,11 @@ public class Activite {
     public LocalDateTime getDebut() {
         return debut;
     }
-
     public void setDebut(LocalDateTime debut) {
         this.debut = debut;
     }
+
+
 
     public LocalDateTime getFin() {
         return fin;
@@ -50,5 +59,8 @@ public class Activite {
     }
     public void supprimerInscrit(Personne personne) {
         this.inscrits.remove(personne);
+    }
+
+    public void add(Activite activite) {
     }
 }
