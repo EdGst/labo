@@ -1,7 +1,6 @@
 package Kinomichi;
 
 import Kinomichi.Activite.Activite;
-import Kinomichi.Activite.ListeActivite;
 import Kinomichi.Horaire.Horaire;
 import Kinomichi.Personne.ListePersonne;
 import Kinomichi.Personne.Personne;
@@ -9,7 +8,6 @@ import Kinomichi.util.Console;
 
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Scanner;
 
 public class Controller  {
@@ -68,14 +66,14 @@ public class Controller  {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nom: ");
         String nom = scanner.nextLine();
-
         System.out.println("Donnez la date et l'heure du début de l'activité");
         LocalDateTime debut = getDate();
         System.out.println("Donnez la date et l'heure de fin de l'activité");
         LocalDateTime fin = getDate();
 
 
-            Activite activite = new Activite(nom, debut, fin);
+        Activite activite = new Activite(nom, debut, fin);
+        a.trieHoraire(activite);
 
 
     }
@@ -114,12 +112,23 @@ public class Controller  {
     }
 
     public void printListeActivite() {
+        int i = 1;
         System.out.println("Liste des activités: ");
         for (Activite activite : a.getListeActivite()) {
-            System.out.println(activite.getNom() + " " + activite.getDebut() + " " + activite.getFin());
+            System.out.println(i +" : " + activite.getNom() + " | " + activite.getDebut() + " | " + activite.getFin());
+            i++;
         }
     }
+    public void printActiviteEtParticipants() {
 
+        printListeActivite();
+
+        System.out.println("Activité : " + activite.getNom());
+        System.out.println("Participants :");
+        for (Personne personne : activite.getListeParticipants()) {
+            System.out.println(personne.getNom() + " " + personne.getPrenom());
+        }
+    }
 
 
 
@@ -168,6 +177,25 @@ public class Controller  {
 
 
     }
+    public void supprimerActivite() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nom: ");
+        String nom = scanner.nextLine();
+
+        System.out.println("Donnez la date et l'heure du début de l'activité");
+        LocalDateTime debut = getDate();
+        System.out.println("Donnez la date et l'heure de fin de l'activité");
+        LocalDateTime fin = getDate();
+
+        Activite activite = rechercheA(nom, debut,fin);
+
+        if (activite != null){
+            this.a.getListeActivite().remove(activite);
+            System.out.println("Personne supprimée: " + activite.getNom() + " " + activite.getDebut() + " " + activite.getFin() );
+        }
+
+
+    }
     public void modifierPersonne() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nom de la personne à modifier: ");
@@ -210,14 +238,74 @@ public class Controller  {
 
         System.out.println("Personne modifiée: "  + p.getPrenom() + " " + p.getNom() + " " + p.getClub());
     }
+    public void modifierActivite() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nom: ");
+        String nom = scanner.nextLine();
+        System.out.println("Donnez la date et l'heure du début de l'activité");
+        LocalDateTime debut = getDate();
+        System.out.println("Donnez la date et l'heure de fin de l'activité");
+        LocalDateTime fin = getDate();
 
+
+        Activite a = rechercheA(nom, debut, fin);
+        if (p == null) {
+            System.out.println("Activité introuvable");
+            return;
+        }
+
+        System.out.println("Activité à modifier: " + a.getNom() + " " + a.getDebut() + " " + a.getFin());
+        System.out.println("Que voulez-vous modifier?");
+        System.out.println("1 - Nom");
+        System.out.println("2 - Heure début");
+        System.out.println("3 - Heure fin");
+        int choix = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choix) {
+            case 1 -> {
+                System.out.println("Nouveau nom: ");
+                String nouveauNom = scanner.nextLine();
+                a.setNom(nouveauNom);
+            }
+            case 2 -> {
+                System.out.println("Nouveau début: ");
+                LocalDateTime nouveauDebut = getDate();
+                a.setDebut(nouveauDebut);
+            }
+            case 3 -> {
+                System.out.println("Nouvelle fin: ");
+                LocalDateTime nouvelleFin = getDate();
+                a.setFin(nouvelleFin);
+            }
+            default -> System.out.println("Choix invalide");
+        }
+
+        System.out.println("Personne modifiée: "  + a.getNom() + " " + a.getDebut() + " " + a.getFin());
+    }
 
 
 
     // inscrire un participant
-    public void inscrirePersonneActivite(String nomActivite, LocalDateTime debut, LocalDateTime fin, String nomPersonne, String prenomPersonne) {
+    public void inscrirePersonneActivite() {
+        System.out.println("Quelle personne voulez-vous inscrire ?");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nom: ");
+        String nomPersonne = scanner.nextLine();
+        System.out.println("Prénom: ");
+        String prenom = scanner.nextLine();
+
+        System.out.println("Quelle activité va-t-elle rejoindre ?");
+
+        System.out.println("Nom: ");
+        String nomActivite = scanner.nextLine();
+        System.out.println("Donnez la date et l'heure du début de l'activité");
+        LocalDateTime debut = getDate();
+        System.out.println("Donnez la date et l'heure de fin de l'activité");
+        LocalDateTime fin = getDate();
+
         Activite activite = rechercheA(nomActivite, debut, fin);
-        Personne personne = rechercheP(nomPersonne, prenomPersonne);
+        Personne personne = rechercheP(nomPersonne, prenom);
 
         activite.ajouterInscrit(personne);
     }

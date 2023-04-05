@@ -25,8 +25,6 @@ public class Activite {
         this.debut = debut;
         this.fin = fin;
 
-
-
     }
 
     public String getNom() {
@@ -56,6 +54,10 @@ public class Activite {
 
     public void ajouterInscrit(Personne personne) {
         this.inscrits.add(personne);
+    }
+
+    public List<Personne> getListeParticipants () {
+        return inscrits;
     }
     public void supprimerInscrit(Personne personne) {
         this.inscrits.remove(personne);
