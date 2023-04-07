@@ -36,6 +36,7 @@ import java.util.List;
             System.out.println("-----------------------------------------------------------------------");
             getGestionPersonne();
             getGestionActivite();
+            getGestionInscription();
 //            getGestionInscription(personne, activite);
             menuBuilder.addItem("q", "Quitter", () -> menuPrincipal.setFinish(true));
             menuBuilder.end();
@@ -76,6 +77,7 @@ import java.util.List;
             Menu gestionDesInscriptions = menuBuilder.startMenu("3", "Gestion des inscriptions");
             menuBuilder.addItem("1", "Inscrire une personne a une activité", () -> controller.inscrirePersonneActivite());
             menuBuilder.addItem("2", "Afficher la liste des activités et des inscrits", () -> controller.printActiviteEtParticipants());
+            menuBuilder.addItem("3", "Afficher la liste des activités par personnes", () -> controller.printActiviteParParticipants());
             menuBuilder.addItem("q", "Retour", () -> gestionDesInscriptions.setFinish(true));
             menuBuilder.endMenu();
         }

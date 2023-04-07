@@ -41,9 +41,15 @@ package Kinomichi.Personne;
             this.club = club;
         }
 
-
-
-
+        @Override
+        public String toString() {
+            return "Personne{" +
+                    "nom='" + nom + '\'' +
+                    ", prenom='" + prenom + '\'' +
+                    ", club='" + club + '\'' +
+                    ", responsable=" + responsable +
+                    '}';
+        }
     }
 
 

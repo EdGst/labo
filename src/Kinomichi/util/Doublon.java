@@ -1,4 +1,4 @@
-package Kinomichi;
+package Kinomichi.util;
 
 import Kinomichi.Activite.Activite;
 import Kinomichi.Personne.Personne;

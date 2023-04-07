@@ -65,4 +65,16 @@ public class Activite {
 
     public void add(Activite activite) {
     }
+
+
+    public String toString(Personne p) {
+        int index = inscrits.indexOf(p);
+        return "Activite{" +
+                " Nom de l'activité :'" + nom  +
+                " \n\n "  +
+//                ", debut=" + debut +
+//                ", fin=" + fin +
+                "Inscrits : " + inscrits.get(index).getNom() + " "+ inscrits.get(index).getPrenom() + " " + inscrits.get(index).getClub() +
+                '}';
+    }
 }
